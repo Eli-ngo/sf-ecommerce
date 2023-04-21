@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UserController!{% endblock %}
+
+{% block body %}
+    <h1 class="text-4xl font-bold">Détail de la commande</h1>
+    {% if basket is not empty %}
+        {# Panier du {{ basket.createdAt|date('d/m/Y') }}<br> #}
+        {% set total = 0 %}
+        {% for product in basket.contentBaskets %}
+            {{ product.products.name }}<br>
+            {{ product.products.price / 100 }}<br>
+            {% set total = total + ( product.products.price * product.quantity / 100 ) %}
+            x {{ product.quantity }}<br>
+        {% endfor %}
+        Total de  : {{ total }}
+    {% else %}
+        <p>Vous n'avez pas encore passé de commande</p>
+    {% endif %}
+{% endblock %}

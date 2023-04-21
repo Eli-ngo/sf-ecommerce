@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use App\Entity\Basket;
 
 class UserController extends AbstractController
 {
@@ -25,9 +26,35 @@ class UserController extends AbstractController
             $em->flush();
         }
 
-        return $this->render('user/index.html.twig', [
-            'edit' => $form->createView(),
+        $baskets = $em->getRepository(Basket::class)->findBy([
+            'user' => $this->getUser(),
+            'state' => true
         ]);
 
+        // $content = $em->getRepository(ContentBasket::class)->findBy([
+        //     'basket' => $basket
+        // ]);
+
+        return $this->render('user/index.html.twig', [
+            'edit' => $form->createView(),
+            'baskets' => $baskets,
+        ]);
+
+    }
+
+    #[Route('/user/basket/{id}', name: 'app_user_order_detail')]
+    public function basket(Basket $basket = null, EntityManagerInterface $em): Response
+    {
+        if ($basket == null) {
+            return $this->redirectToRoute('app_user');
+        }
+
+        if($basket->isState() == false){
+            return $this->redirectToRoute('app_user');
+        }
+
+        return $this->render('user/order_detail.html.twig', [
+            'basket' => $basket
+        ]);
     }
 }

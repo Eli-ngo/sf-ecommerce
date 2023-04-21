@@ -19,4 +19,22 @@
     {{ form(edit) }}
 
     <h2 class="font-3xl font-bold">Mon historique de commandes</h2>
+
+    {% if baskets is not empty %}
+        {% for basket in baskets %}
+            {# Panier du {{ basket.createdAt|date('d/m/Y') }}<br> #}
+            {% set total = 0 %}
+            {% for basketContent in basket.contentBaskets %}
+                {{ basketContent.products.name }}<br>
+                {{ basketContent.products.price / 100 }}<br>
+                {% set total = total + ( basketContent.products.price * basketContent.quantity / 100 ) %}
+                x {{ basketContent.quantity }}<br>
+
+            {% endfor %}
+            Total de  : {{ total }}
+            <a class="text-red-500" href="{{ path('app_user_order_detail', { 'id': basket.id }) }}">Voir le détail de la commande</a>
+        {% endfor %}
+    {% else %}
+        <p>Vous n'avez pas encore passé de commande</p>
+    {% endif %}
 {% endblock %}
