@@ -4,10 +4,26 @@
 
 {% block body %}
     <h1 class="text-3xl font-bold">Panier</h1>
-        {% for pro in content %}
-            {{ pro.products.name }} <br>
-            x {{ pro.quantity }} qty <br>
-            {{ pro.products.price / 100 }} € <br>
-            <hr></hr>
-        {% endfor %}
+        {% if content is not empty %}
+            {% set totalCart = 0 %}
+
+            {% for pro in content %}
+                {{ pro.products.name }} <br>
+                x {{ pro.quantity }} qty <br>
+                {% set unit = pro.products.price / 100 %}
+                {% set total = unit * pro.quantity %}
+                Prix Unité : {{ unit }} € <br>
+                Total : {{ total }} € <br>
+                <a class="text-red-500" href="{{ path('app_content_basket_delete', {'id': pro.id})}}">Supprimer</a>
+                <hr></hr>
+
+            {% endfor %}
+
+            {% for pro in content %}
+                {% set totalCart = totalCart + (pro.products.price / 100 * pro.quantity) %}
+            {% endfor %}
+            <p>Total Panier : {{ totalCart }} €</p>
+        {% else %}
+            <p>Votre panier est vide</p>
+        {% endif %}
 {% endblock %}

@@ -20,4 +20,17 @@ class ContentBasketController extends AbstractController
             'controller_name' => 'ContentBasketController',
         ]);
     }
+
+    #[Route('/content/basket/delete/{id}', name: 'app_content_basket_delete')]
+    public function delete(ContentBasket $content = null, EntityManagerInterface $em): Response
+    {
+        if ($content == null) {
+            return $this->redirectToRoute('app_basket');
+        }
+
+        $em->remove($content);
+        $em->flush();
+
+        return $this->redirectToRoute('app_basket');
+    }
 }
