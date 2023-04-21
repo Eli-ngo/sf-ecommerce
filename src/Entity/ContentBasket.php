@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ContentBasketRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class ContentBasket
 {
     #[ORM\Id]
@@ -15,69 +16,21 @@ class ContentBasket
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToMany(mappedBy: 'contentBasket', targetEntity: Product::class, orphanRemoval: true)]
-    private Collection $product;
-
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Basket $basket = null;
-
     #[ORM\Column]
     private ?int $quantity = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    public function __construct()
-    {
-        $this->product = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(inversedBy: 'contentBaskets')]
+    private ?Product $products = null;
+
+    #[ORM\ManyToOne(inversedBy: 'contentBaskets')]
+    private ?Basket $basket = null;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @return Collection<int, Product>
-     */
-    public function getProduct(): Collection
-    {
-        return $this->product;
-    }
-
-    public function addProduct(Product $product): self
-    {
-        if (!$this->product->contains($product)) {
-            $this->product->add($product);
-            $product->setContentBasket($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProduct(Product $product): self
-    {
-        if ($this->product->removeElement($product)) {
-            // set the owning side to null (unless already changed)
-            if ($product->getContentBasket() === $this) {
-                $product->setContentBasket(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getBasket(): ?Basket
-    {
-        return $this->basket;
-    }
-
-    public function setBasket(Basket $basket): self
-    {
-        $this->basket = $basket;
-
-        return $this;
     }
 
     public function getQuantity(): ?int
@@ -100,6 +53,36 @@ class ContentBasket
     public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
+
+    public function getProducts(): ?Product
+    {
+        return $this->products;
+    }
+
+    public function setProducts(?Product $products): self
+    {
+        $this->products = $products;
+
+        return $this;
+    }
+
+    public function getBasket(): ?Basket
+    {
+        return $this->basket;
+    }
+
+    public function setBasket(?Basket $basket): self
+    {
+        $this->basket = $basket;
 
         return $this;
     }

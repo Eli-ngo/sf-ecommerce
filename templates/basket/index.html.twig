@@ -4,4 +4,10 @@
 
 {% block body %}
     <h1 class="text-3xl font-bold">Panier</h1>
+        {% for pro in content %}
+            {{ pro.products.name }} <br>
+            x {{ pro.quantity }} qty <br>
+            {{ pro.products.price / 100 }} € <br>
+            <hr></hr>
+        {% endfor %}
 {% endblock %}
