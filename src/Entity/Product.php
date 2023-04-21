@@ -5,8 +5,12 @@ namespace App\Entity;
 use App\Repository\ProductRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
+#[UniqueEntity(fields: ['name'], message: 'Ce produit existe déjà')]
 class Product
 {
     #[ORM\Id]
@@ -21,6 +25,12 @@ class Product
     private ?string $description = null;
 
     #[ORM\Column]
+    #[Assert\PositiveOrZero]
+    #[Assert\Length(
+        max: 10000,
+        maxMessage: 'Le prix ne peut pas dépasser 10 000 €'
+    )]
+
     private ?float $price = null;
 
     #[ORM\Column]
@@ -30,7 +40,7 @@ class Product
     private ?string $image = null;
 
     #[ORM\ManyToOne(inversedBy: 'product')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?ContentBasket $contentBasket = null;
 
     public function getId(): ?int
@@ -108,5 +118,15 @@ class Product
         $this->contentBasket = $contentBasket;
 
         return $this;
+    }
+
+    #[ORM\PostRemove] //on ajoute cette annotation pour dire que cette méthode doit être appelée après la suppression d'un produit
+    public function deleteImage(){
+        //Si le produit possède une image
+        if($this->image != null){
+            //on le supprime
+            unlink(__DIR__.'/../../public/uploads/'.$this->image);
+        }
+        return true; //on retourne true pour dire que tout s'est bien passé
     }
 }

@@ -8,8 +8,11 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity(fields: ['email'], message: 'Il existe déjà un compte avec cet email.')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -18,6 +21,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Assert\NotBlank(message: 'Veuillez renseigner un email.')]
+    #[Assert\Email(message: 'Veuillez renseigner un email valide.')]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -27,6 +32,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\NotBlank(message: 'Veuillez renseigner un mot de passe.')]
+    #[Assert\Length(
+        min: 8,
+        minMessage: 'Votre mot de passe doit contenir au moins 8 caractères.'
+    )]
+    
     private ?string $password = null;
 
     #[ORM\Column(length: 100)]
