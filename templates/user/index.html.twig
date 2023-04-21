@@ -10,13 +10,13 @@
             <p>Nom : {{ app.user.lastName }}</p>
             <p>Prénom : {{ app.user.firstName }}</p>
             <p>Email : {{ app.user.email }}</p>
+
+            <h2 class="text-2xl font-bold">MODIFIER</h2>
+            {{ form(edit) }}
+
+            <h2 class="font-3xl font-bold">Mon historique de commandes</h2>
         {% else %}
             <p>Vous n'êtes pas connecté</p>
         {% endif %}
     </div>
-
-    <h2 class="text-2xl font-bold">MODIFIER</h2>
-    {{ form(edit) }}
-
-    <h2 class="font-3xl font-bold">Mon historique de commandes</h2>
 {% endblock %}

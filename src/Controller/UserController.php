@@ -23,11 +23,11 @@ class UserController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $em->persist($currentUser);
             $em->flush();
+            $this->addFlash('success', 'Votre profil a bien été modifié');
         }
 
         return $this->render('user/index.html.twig', [
             'edit' => $form->createView(),
         ]);
-
     }
 }
