@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>{{ product.name }}</h1>
+
+
+    {# {% if is_granted('ROLE_ADMIN') %}
+    <a href="{{ path('add_product', {'id': product.id}) }}" >Ajouter un produit</a>
+    {% endif %} #}
+
+{% endblock %}
