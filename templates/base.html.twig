@@ -16,11 +16,39 @@
     <body>
         {# MENU #}
         <header>
-            <nav>
-                <ul>
-                    <li><a href="{{ path('app_product') }}">Accueil</a></li>
-                    <li><a href="{{ path('app_basket') }}">Panier</a></li>
-                </ul>
+            <nav class="flex flex-column justify-between items-center bg-neutral-800 text-white px-8 py-6">
+                <div>
+                    <ul class="flex flex-column justify-center gap-5">
+                        <li><a href="{{ path('app_product') }}">Accueil</a></li>
+                        {% if app.user %}
+                            <li>
+                                <p class="font-bold">Bonjour {{ app.user.firstName }} {{ app.user.lastName }} !</p>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div>
+                    <ul class="flex flex-column justify-center gap-5">
+                            <li>
+                                <a href="{{ path('app_basket') }}">Mon panier</a>
+                            </li>
+                        {% if app.user %}
+                            <li>
+                                <a href="{{ path('app_user') }}">Mon compte</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('app_logout') }}">Déconnexion</a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a href="{{ path('app_login') }}">Connexion</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('app_register') }}">Inscription</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
             </nav>
         </header>
 

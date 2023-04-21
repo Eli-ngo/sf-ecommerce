@@ -26,7 +26,7 @@
     {% endif %}
 
     {# Si vous êtes connecté avec un rôle ROLE_ADMIN, vous devez pouvoir ajouter un produit sur cette page. #}
-    {# {% if is_granted('ROLE_ADMIN') %}
-    <a href="{{ path('add_product', {'id': product.id}) }}" >Ajouter un produit</a>
-    {% endif %} #}
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="http://localhost:8000/admin?crudAction=new&crudControllerFqcn=App%5CController%5CAdmin%5CProductCrudController&referrer=http://localhost:8000/admin?crudAction%3Dindex%26crudControllerFqcn%3DApp%255CController%255CAdmin%255CProductCrudController">Ajouter un produit</a>
+    {% endif %}
 {% endblock %}

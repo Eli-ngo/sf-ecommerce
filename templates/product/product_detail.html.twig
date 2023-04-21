@@ -10,15 +10,15 @@
     {% endif %}
 
     {# Il doit être possible d’ajouter le produit au panier à partir de cette page à condition d’être connecté. L’utilisateur connecté doit automatiquement être attribué à la commande. #}
-    {# {% if app.user is not null %}
-        <a href="{{ path('add_to_cart', {'id': product.id}) }}" >Ajouter au panier</a>
-    {% endif %} #}
+    {% if app.user is not null %}
+        <a href="" >Ajouter au panier</a>
+    {% endif %}
 
     {# Si vous êtes connecté avec un rôle ROLE_ADMIN, vous devez pouvoir modifier ou supprimer le produit. #}
-    {# {% if is_granted('ROLE_ADMIN') %}
+    {% if is_granted('ROLE_ADMIN') %}
     <div>
-        <a href="{{ path('add_product', {'id': product.id}) }}" >Modifier le produit</a>
-        <a href="{{ path('delete_product', {'id': product.id}) }}" >Supprimer le produit</a>
+        <a href="{{ path('admin') }}" >Modifier le produit</a>
+        <a href="{{ path('admin') }}" >Supprimer le produit</a>
     </div>
-    {% endif %} #}
+    {% endif %}
 {% endblock %}
