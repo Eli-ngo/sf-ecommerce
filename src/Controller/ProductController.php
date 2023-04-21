@@ -8,6 +8,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Basket;
+use App\Entity\ContentBasket;
+
 
 class ProductController extends AbstractController
 {
@@ -34,4 +37,38 @@ class ProductController extends AbstractController
         ]);
     }
 
+    
+
+    #[Route('/product/add/{id}', name: 'app_product_add')]
+    public function add(Product $product = null, EntityManagerInterface $em): Response
+    {
+        if ($product == null) {
+           return $this->redirectToRoute('app_product');
+        }
+        $basket = $em->getRepository(Basket::class);
+        $basket = $basket->findOneBy(['user' => $this->getUser() , 'state' => false]);
+        if ($basket == null) {
+            $basket = new Basket();
+            $basket->setUser($this->getUser());
+            $em->persist($basket);
+            $em->flush();
+        }
+        
+        $contentBasket = $em->getRepository(ContentBasket::class);
+        $contentBasket = $contentBasket->findOneBy(['basket' => $basket, 'products' => $product]);
+        if ($contentBasket == null) {
+            $contentBasket = new ContentBasket();
+            $contentBasket->setBasket($basket);
+            $contentBasket->setProducts($product);
+            $contentBasket->setQuantity(1);
+            $em->persist($contentBasket);
+            $em->flush();
+        }else{
+            $contentBasket->setQuantity($contentBasket->getQuantity() + 1);
+            $em->persist($contentBasket);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('app_basket');
+    }
 }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProductRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -39,9 +41,13 @@ class Product
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $image = null;
 
-    #[ORM\ManyToOne(inversedBy: 'product')]
-    #[ORM\JoinColumn(nullable: true)]
-    private ?ContentBasket $contentBasket = null;
+    #[ORM\OneToMany(mappedBy: 'products', targetEntity: ContentBasket::class)]
+    private Collection $contentBaskets;
+
+    public function __construct()
+    {
+        $this->contentBaskets = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -108,18 +114,6 @@ class Product
         return $this;
     }
 
-    public function getContentBasket(): ?ContentBasket
-    {
-        return $this->contentBasket;
-    }
-
-    public function setContentBasket(?ContentBasket $contentBasket): self
-    {
-        $this->contentBasket = $contentBasket;
-
-        return $this;
-    }
-
     #[ORM\PostRemove] //on ajoute cette annotation pour dire que cette méthode doit être appelée après la suppression d'un produit
     public function deleteImage(){
         //Si le produit possède une image
@@ -128,5 +122,35 @@ class Product
             unlink(__DIR__.'/../../public/uploads/'.$this->image);
         }
         return true; //on retourne true pour dire que tout s'est bien passé
+    }
+
+    /**
+     * @return Collection<int, ContentBasket>
+     */
+    public function getContentBaskets(): Collection
+    {
+        return $this->contentBaskets;
+    }
+
+    public function addContentBasket(ContentBasket $contentBasket): self
+    {
+        if (!$this->contentBaskets->contains($contentBasket)) {
+            $this->contentBaskets->add($contentBasket);
+            $contentBasket->setProducts($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContentBasket(ContentBasket $contentBasket): self
+    {
+        if ($this->contentBaskets->removeElement($contentBasket)) {
+            // set the owning side to null (unless already changed)
+            if ($contentBasket->getProducts() === $this) {
+                $contentBasket->setProducts(null);
+            }
+        }
+
+        return $this;
     }
 }

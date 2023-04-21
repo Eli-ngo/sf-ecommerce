@@ -16,6 +16,8 @@
                 <tr>
                     <td>
                         <a href="{{ path('product_detail', {'id': product.id}) }}" class="btn btn-primary">{{ product.name }}</a>
+                        ajouter au panier
+                        <a href="{{ path('app_product_add', {'id': product.id}) }}" class="btn btn-primary">Ajouter au panier</a>
                     </td>
                 </tr>
                 {% endfor %}
