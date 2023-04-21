@@ -3,14 +3,30 @@
 {% block title %}Hello ProductController!{% endblock %}
 
 {% block body %}
-    <h1>Accueil (produits)</h1>
+    <h1 class="text-3xl font-bold">Accueil (produits)</h1>
     {% if products is not empty %}
-        <ul>
-            {% for product in products %}
-                <li>{{ product.name }}</li>
-            {% endfor %}
-        </ul>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td>
+                        <a href="{{ path('product_detail', {'id': product.id}) }}" class="btn btn-primary">{{ product.name }}</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     {% else %}
         <p>Aucun produit</p>
     {% endif %}
+
+    {# Si vous êtes connecté avec un rôle ROLE_ADMIN, vous devez pouvoir ajouter un produit sur cette page. #}
+    {# {% if is_granted('ROLE_ADMIN') %}
+    <a href="{{ path('add_product', {'id': product.id}) }}" >Ajouter un produit</a>
+    {% endif %} #}
 {% endblock %}
