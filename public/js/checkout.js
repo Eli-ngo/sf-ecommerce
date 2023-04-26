@@ -80,10 +80,9 @@ async function checkStatus() {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
             }).then((r) => r.json()).then((data) => {
-                console.log(data);
                 if(data.success){
-                        window.location.href = data.url + paymentIntent.id.slice(3);
-                    }
+                    window.location.href = data.url + paymentIntent.id.slice(3);
+                }
             });
 
 
