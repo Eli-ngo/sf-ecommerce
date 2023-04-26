@@ -76,7 +76,18 @@ async function checkStatus() {
 
     switch (paymentIntent.status) {
         case "succeeded":
-        showMessage("Félicitations, votre paiement est passé !");
+            fetch('/stripe/success', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+            }).then((r) => r.json()).then((data) => {
+                console.log(data);
+                if(data.success){
+                        window.location.href = data.url + paymentIntent.id.slice(3);
+                    }
+            });
+
+
+            showMessage("Félicitations, votre paiement est passé !");
         break;
         case "processing":
         showMessage("Your payment is processing.");
