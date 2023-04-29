@@ -5,6 +5,9 @@
 {% block body %}
 <!-- Display a payment form -->
     <form id="payment-form">
+        <div class="font-bold">
+            Total : {{total}} €
+        </div>
         <div id="link-authentication-element">
             <!--Stripe.js injects the Link Authentication Element-->
         </div>

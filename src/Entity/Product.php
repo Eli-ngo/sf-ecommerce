@@ -9,9 +9,12 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
+#[Vich\Uploadable]
 #[UniqueEntity(fields: ['name'], message: 'Ce produit existe déjà')]
 class Product
 {
@@ -38,11 +41,17 @@ class Product
     #[ORM\Column]
     private ?int $supply = null;
 
-    #[ORM\Column(length: 50, nullable: true)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
+
+    #[Vich\UploadableField(mapping: 'products', fileNameProperty: 'image')]
+    private ?File $imageFile = null;
 
     #[ORM\OneToMany(mappedBy: 'products', targetEntity: ContentBasket::class)]
     private Collection $contentBaskets;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
 
     public function __construct()
     {
@@ -114,15 +123,34 @@ class Product
         return $this;
     }
 
-    #[ORM\PostRemove] //on ajoute cette annotation pour dire que cette méthode doit être appelée après la suppression d'un produit
-    public function deleteImage(){
-        //Si le produit possède une image
-        if($this->image != null){
-            //on le supprime
-            unlink(__DIR__.'/../../public/uploads/'.$this->image);
-        }
-        return true; //on retourne true pour dire que tout s'est bien passé
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
     }
+
+    public function setImageFile(?File $imageFile = null): self
+    {
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+
+        return $this;
+    }
+
+    // #[ORM\PostRemove] //on ajoute cette annotation pour dire que cette méthode doit être appelée après la suppression d'un produit
+    // public function deleteImage(){
+    //     //Si le produit possède une image
+    //     if($this->image != null){
+    //         //on le supprime
+    //         unlink(__DIR__.'/../../public/uploads/'.$this->image);
+    //     }
+
+    //     return true; //on retourne true pour dire que tout s'est bien passé
+    // }
 
     /**
      * @return Collection<int, ContentBasket>
@@ -153,4 +181,17 @@ class Product
 
         return $this;
     }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+    
 }

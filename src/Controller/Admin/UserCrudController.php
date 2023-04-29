@@ -2,21 +2,19 @@
 
 namespace App\Controller\Admin;
 
+use App\Controller\Admin\Filter\UserLastSignup;
 use App\Entity\User;
-use EasyCorp\Bundle\EasyAdminBundle\Config\{Action, Actions, Crud, KeyValueStore};
+use EasyCorp\Bundle\EasyAdminBundle\Config\{Action, Actions, Crud, KeyValueStore, Filters};
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
-use EasyCorp\Bundle\EasyAdminBundle\Field\{IdField, EmailField, TextField, ArrayField};
+use EasyCorp\Bundle\EasyAdminBundle\Field\{IdField, EmailField, TextField, ArrayField, DateTimeField};
 use Symfony\Component\Form\Extension\Core\Type\{PasswordType, RepeatedType};
 use Symfony\Component\Form\{FormBuilderInterface, FormEvent, FormEvents};
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-
-
 class UserCrudController extends AbstractCrudController
 {
-
     public function __construct(
         public UserPasswordHasherInterface $userPasswordHasher
     ) {}
@@ -24,6 +22,40 @@ class UserCrudController extends AbstractCrudController
     public static function getEntityFqcn(): string
     {
         return User::class;
+    }
+
+    // public function configureFilters(Filters $filters): Filters
+    // {
+    //     return $filters 
+    //         -> add('createdAt', ChoiceFilter::class, [
+    //         'label' => 'Inscrit aujourd\'hui',
+    //         'field_options' => [
+    //             'choices' => [
+    //                 'Oui' => true,
+    //                 'Non' => false,
+    //             ],
+    //         ],
+    //         'apply_filter' => function (QueryBuilder $queryBuilder, $filterData, $filterForm) {
+    //             if ($filterData['value'] === true) {
+    //                 $queryBuilder
+    //                     ->andWhere('entity.createdAt >= :today')
+    //                     ->setParameter('today', new \DateTime('today'))
+    //                 ;
+    //             } elseif ($filterData['value'] === false) {
+    //                 $queryBuilder
+    //                     ->andWhere('entity.createdAt < :today')
+    //                     ->setParameter('today', new \DateTime('today'))
+    //                 ;
+    //             }
+    //         },
+    //     ]);
+    // }
+
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters
+            ->add(UserLastSignup::new('createdAt'))
+            ;
     }
 
     public function configureActions(Actions $actions): Actions
@@ -43,6 +75,7 @@ class UserCrudController extends AbstractCrudController
             TextField::new('firstname'),
             TextField::new('lastname'),
             ArrayField::new('roles'),
+            DateTimeField::new('createdAt')->hideOnForm(),
         ];
 
         $password = TextField::new('password')

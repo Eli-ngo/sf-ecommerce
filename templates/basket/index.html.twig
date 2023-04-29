@@ -35,6 +35,8 @@
                 {% set totalCart = totalCart + (pro.products.price / 100 * pro.quantity) %}
             {% endfor %}
             <p>Total Panier : {{ totalCart }} €</p>
+
+            <a href="{{ path('app_stripe') }}">Payer</a>
         {% else %}
             <p>Votre panier est vide</p>
         {% endif %}

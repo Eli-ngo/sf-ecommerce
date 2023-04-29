@@ -26,8 +26,11 @@ class Basket
     #[ORM\Column]
     private ?bool $state = null;
 
-    #[ORM\OneToMany(mappedBy: 'basket', targetEntity: ContentBasket::class)]
+    #[ORM\OneToMany(mappedBy: 'basket', targetEntity: ContentBasket::class, orphanRemoval: true)]
     private Collection $contentBaskets;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $transaction_id = null;
 
     public function getId(): ?int
     {
@@ -107,6 +110,18 @@ class Basket
                 $contentBasket->setBasket(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTransactionId(): ?string
+    {
+        return $this->transaction_id;
+    }
+
+    public function setTransactionId(?string $transaction_id): self
+    {
+        $this->transaction_id = $transaction_id;
 
         return $this;
     }

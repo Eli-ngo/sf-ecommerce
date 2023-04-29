@@ -27,7 +27,6 @@
 
     {% if baskets is not empty %}
         {% for basket in baskets %}
-            {# Panier du {{ basket.createdAt|date('d/m/Y') }}<br> #}
             {% set total = 0 %}
             {% for basketContent in basket.contentBaskets %}
                 {{ basketContent.products.name }}<br>
