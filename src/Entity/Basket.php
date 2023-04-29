@@ -26,7 +26,7 @@ class Basket
     #[ORM\Column]
     private ?bool $state = null;
 
-    #[ORM\OneToMany(mappedBy: 'basket', targetEntity: ContentBasket::class)]
+    #[ORM\OneToMany(mappedBy: 'basket', targetEntity: ContentBasket::class, orphanRemoval: true)]
     private Collection $contentBaskets;
 
     #[ORM\Column(length: 255, nullable: true)]
