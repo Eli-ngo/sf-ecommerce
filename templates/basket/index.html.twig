@@ -3,20 +3,32 @@
 {% block title %}Hello BasketController!{% endblock %}
 
 {% block body %}
-    <h1 class="text-3xl font-bold">Panier</h1>
+    <div class="bg-slate-100 px-10 py-10 h-full flex flex-col justify-center gap-10">
+        <h1 class="text-3xl font-bold">Panier</h1>
         {% if content is not empty %}
             {% set totalCart = 0 %}
 
             {% for pro in content %}
-                {{ pro.products.name }} <br>
+                <div class="bg-white py-4 px-4 mb-8 border-2 border-grey-900">
+                    <h2 class="font-bold">{{ pro.products.name }}</h2>
+                    <p>x {{ pro.quantity }} qty</p>
+                    {% set unit = pro.products.price / 100 %}
+                    {% set total = unit * pro.quantity %}
+                    <p>Prix Unité : {{ unit }} €</p>
+                    <p>Total : {{ total }} €</p>
+                    <a class="text-red-500" href="{{ path('app_content_basket_delete', {'id': pro.id})}}">Supprimer</a>
+                </div>
+
+                {# {{ pro.products.name }} <br>
                 x {{ pro.quantity }} qty <br>
                 {% set unit = pro.products.price / 100 %}
                 {% set total = unit * pro.quantity %}
                 Prix Unité : {{ unit }} € <br>
                 Total : {{ total }} € <br>
                 <a class="text-red-500" href="{{ path('app_content_basket_delete', {'id': pro.id})}}">Supprimer</a>
-                <hr></hr>
+                <hr></hr> #}
 
+    </div>
             {% endfor %}
 
             {% for pro in content %}

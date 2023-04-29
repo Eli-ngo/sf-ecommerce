@@ -3,32 +3,31 @@
 {% block title %}Hello ProductController!{% endblock %}
 
 {% block body %}
-    <h1 class="text-3xl font-bold">Accueil (produits)</h1>
+    <div class="px-8 pt-6 pb-8 bg-slate-100">
+        {# Si vous êtes connecté avec un rôle ROLE_ADMIN, vous devez pouvoir ajouter un produit sur cette page. #}
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="http://localhost:8000/admin?crudAction=new&crudControllerFqcn=App%5CController%5CAdmin%5CProductCrudController&referrer=http://localhost:8000/admin?crudAction%3Dindex%26crudControllerFqcn%3DApp%255CController%255CAdmin%255CProductCrudController" class="btn btn-primary text-white bg-black py-2 px-2 rounded shadow-md w-1/6">Ajouter un produit</a>
+        {% endif %}
+        <h1 class="text-3xl font-bold text-center">{{ 'product.title'|trans }}</h1>
     {% if products is not empty %}
-        <table>
-            <thead>
-                <tr>
-                    <th>Nom</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for product in products %}
-                <tr>
-                    <td>
-                        <a href="{{ path('product_detail', {'id': product.id}) }}" class="btn btn-primary">{{ product.name }}</a>
-                        ajouter au panier
-                        <a href="{{ path('app_product_add', {'id': product.id}) }}" class="btn btn-primary">Ajouter au panier</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div class="flex gap-10 justify-center items-center w-full px-10 flex-wrap">
+            {% for product in products %}
+                <div class="bg-white rounded-xl px-8 pt-6 pb-4 mt-8 mb-2 w-1/6 h-96 flex flex-col justify-between">
+                    <div class="mb-4 flex justify-center">
+                        <img src="{{ asset('/uploads/'~ product.image) }}" alt="{{ product.name }}" class="w-2/3">
+                    </div>
+                    <div class="mb-4">
+                        <a href="{{ path('product_detail', {'id': product.id}) }}" class="btn btn-primary font-bold text-xl">{{ product.name }}</a>
+                    </div>
+                    <div class="mb-4 flex flex-col items-end">
+                        <p class="font-bold mb-4">€ {{ product.price }}</p>
+                        <a href="{{ path('app_product_add', {'id': product.id}) }}" class="btn btn-primary bg-green-300 py-2 px-2 rounded shadow-md"><i class="fas fa-basket-shopping"></i></a>
+                    </div>
+                </div>
+            {% endfor %}
+
     {% else %}
         <p>Aucun produit</p>
     {% endif %}
-
-    {# Si vous êtes connecté avec un rôle ROLE_ADMIN, vous devez pouvoir ajouter un produit sur cette page. #}
-    {% if is_granted('ROLE_ADMIN') %}
-        <a href="http://localhost:8000/admin?crudAction=new&crudControllerFqcn=App%5CController%5CAdmin%5CProductCrudController&referrer=http://localhost:8000/admin?crudAction%3Dindex%26crudControllerFqcn%3DApp%255CController%255CAdmin%255CProductCrudController">Ajouter un produit</a>
-    {% endif %}
+    </div>
 {% endblock %}
