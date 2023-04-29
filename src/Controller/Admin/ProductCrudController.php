@@ -30,10 +30,6 @@ class ProductCrudController extends AbstractCrudController
             IntegerField::new('supply'),
             TextField::new('imageFile')
                 ->setFormType(VichImageType::class)
-                ->setFormTypeOptions([
-                    'allow_delete' => true,
-                    'download_label' => true,
-                ])
                 ->onlyOnForms(),
             ImageField::new('image')
                 ->setBasePath('/uploads')
