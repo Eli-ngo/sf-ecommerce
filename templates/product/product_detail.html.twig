@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}{{ 'product.productPage'|trans }} | {{product.name}}{% endblock %}
+
 {% block body %}
     <div class="bg-slate-100 px-8 pt-6 pb-8 flex flex-col justify-center items-center h-screen gap-10">
         <div class="bg-white rounded-xl px-8 pt-6 pb-8 flex justify-between gap-10">
@@ -18,9 +20,9 @@
                         {# Il doit être possible d’ajouter le produit au panier à partir de cette page à condition d’être connecté. L’utilisateur connecté doit automatiquement être attribué à la commande. #}
                         {% if app.user is not null %}
                             {% if product.supply > 0 %}
-                                <a href="{{ path('app_product_add', {'id': product.id}) }}" class="btn btn-primary bg-green-300 py-2 px-2 rounded shadow-md"><i class="fas fa-basket-shopping mr-2"></i>Ajouter au panier</a>
+                                <a href="{{ path('app_product_add', {'id': product.id}) }}" class="btn btn-primary bg-green-300 py-2 px-2 rounded shadow-md"><i class="fas fa-basket-shopping mr-2"></i>{{ 'button.addToCart'|trans }}</a>
                             {% else %}
-                                <p class="text-red-600">Produit indisponible</p>
+                                <p class="text-red-600">{{ 'product.outOfStock'|trans }}</p>
                             {% endif %}
                         {% endif %}
                     </div>
@@ -30,8 +32,8 @@
         {# Si vous êtes connecté avec un rôle ROLE_ADMIN, vous devez pouvoir modifier ou supprimer le produit. #}
         {% if is_granted('ROLE_ADMIN') %}
             <div class="flex gap-6">
-                <a href="{{ path('admin') }}?entity=Product&crudAction=edit&entityId={{product.id}}" class="btn btn-primary text-white bg-black py-2 px-2 rounded shadow-md">Modifier le produit</a>
-                <a href="{{ path('admin') }}?entity=Product&crudAction=delete&entityId={{product.id}}" class="btn btn-primary text-white bg-red-600 py-2 px-2 rounded shadow-md">Supprimer le produit</a>
+                <a href="{{ path('admin') }}?entity=Product&crudAction=edit&entityId={{product.id}}" class="btn btn-primary text-white bg-black py-2 px-2 rounded shadow-md">{{ 'button.editProduct'|trans }}'</a>
+                <a href="{{ path('admin') }}?entity=Product&crudAction=delete&entityId={{product.id}}" class="btn btn-primary text-white bg-red-600 py-2 px-2 rounded shadow-md">{{ 'button.deleteProduct'|trans }}</a>
             </div>
         {% endif %}
     </div>

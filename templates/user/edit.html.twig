@@ -1,15 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}MON COMPTE | Modifications{% endblock %}
+{% block title %}{{ 'user.pageTitle'|trans }} | {{ 'cart.modify'|trans }}{% endblock %}
 
 {% block body %}
 <div class="bg-slate-100 flex flex-col justify-center items-center px-8 pt-6 pb-8 w-full h-screen">
-    <h1 class="text-4xl font-bold">Mes informations</h1>
+    <h1 class="text-4xl font-bold">{{ 'user.personalInfo'|trans }}</h1>
     <div>
         {% if app.user is not null %}
             {{ form(edit) }}
         {% else %}
-            <p>Vous n'êtes pas connecté</p>
+            <p>{{ 'user.messageNoUser'|trans }}</p>
         {% endif %}
     </div>
     {# bouton de retour #}

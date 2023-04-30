@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello StripeController!{% endblock %}
+{% block title %}{{ 'stripe.pageTile'|trans }}{% endblock %}
 
 {% block body %}
 <!-- Display a payment form -->
     <form id="payment-form">
         <div class="font-bold">
-            Total : {{total}} €
+            {{ 'stripe.total'|trans }} : {{total}} €
         </div>
         <div id="link-authentication-element">
             <!--Stripe.js injects the Link Authentication Element-->
@@ -16,7 +16,7 @@
         </div>
         <button id="submit">
             <div class="spinner hidden" id="spinner"></div>
-            <span id="button-text">Pay now</span>
+            <span id="button-text">{{ 'stripe.pay'|trans }}</span>
         </button>
         <div id="payment-message" class="hidden"></div>
         </form>

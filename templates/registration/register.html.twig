@@ -1,21 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Inscription{% endblock %}
+{% block title %}{{ 'registration.pageTitle'|trans }}{% endblock %}
 
 {% block body %}
 <div class="bg-slate-100 flex flex-col justify-center items-center px-8 pt-6 pb-8 w-full h-screen">
 
     {{ form_start(registrationForm, {'attr': {'class': 'registrationForm'}}) }}
-        <h1 class="font-bold text-4xl">Inscription</h1>
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.firstName) }}
-        {{ form_row(registrationForm.lastName) }}
+        <h1 class="font-bold text-4xl">{{ 'registration.pageTitle'|trans }}</h1>
+        {{ form_row(registrationForm.email, 
+            {label: 'registration.email'|trans }
+        ) }}
+        {{ form_row(registrationForm.firstName, 
+            {label: 'registration.firstName'|trans }
+        ) }}
+        {{ form_row(registrationForm.lastName,{
+            label: 'registration.lastName'|trans,
+         }) }}
         {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
+            label: 'registration.password'|trans,
         }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+        {{ form_row(registrationForm.agreeTerms, 
+            {label: 'registration.agree'|trans })
+         }}
 
-        <button type="submit" class="btn btn-lg btn-primary font-bold bg-green-300 py-2 px-2 border-2 border-black rounded-xl">Register</button>
+        <button type="submit" class="btn btn-lg btn-primary font-bold bg-green-300 py-2 px-2 border-2 border-black rounded-xl">{{ 'button.register'|trans }}</button>
     {{ form_end(registrationForm) }}
 </div>
 {% endblock %}

@@ -11,6 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Basket;
 use App\Entity\ContentBasket;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ProductController extends AbstractController
 {
@@ -26,10 +27,10 @@ class ProductController extends AbstractController
 
     /** PAGE DETAIL PRODUIT */
     #[Route('/product/{id}', name: 'product_detail')]
-    public function product(Product $product = null){
+    public function product(Product $product = null, TranslatorInterface $translator){
 
         if($product == null){
-            $this->addFlash('danger', 'Produit introuvable');
+            $this->addFlash('danger', $translator->trans('flash.noProduct'));
             return $this->redirectToRoute('app_product');
         }
 
@@ -43,15 +44,15 @@ class ProductController extends AbstractController
      * @Security("is_granted('ROLE_USER')")
     */
     #[Route('/product/add/{id}', name: 'app_product_add')]
-    public function add(Product $product = null, EntityManagerInterface $em): Response
+    public function add(Product $product = null, EntityManagerInterface $em, TranslatorInterface $translator): Response
     {
         if ($product == null) {
-            $this->addFlash('danger', 'Produit introuvable');
+            $this->addFlash('danger', $translator->trans('flash.noProduct'));
            return $this->redirectToRoute('app_product');
         }
 
         if($product->getSupply() < 1){
-            $this->addFlash('danger', 'Aucune quantité disponible');
+            $this->addFlash('danger', $translator->trans('flash.noStock'));
             return $this->redirectToRoute('app_product');
         }
 
@@ -76,14 +77,14 @@ class ProductController extends AbstractController
         }else{
             $contentBasket->setQuantity($contentBasket->getQuantity() + 1);
             if($contentBasket->getQuantity() > $product->getSupply()){
-                $this->addFlash('danger', 'Aucune quantité disponible');
+                $this->addFlash('danger', $translator->trans('flash.noStock'));
                 return $this->redirectToRoute('app_product');
             }
             $em->persist($contentBasket);
             $em->flush();
         }
 
-        $this->addFlash('success', 'Produit ajouté au panier');
+        $this->addFlash('success', $translator->trans('flash.productAdded'));
 
         return $this->redirectToRoute('app_basket');
     }

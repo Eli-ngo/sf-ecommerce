@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello BasketController!{% endblock %}
+{% block title %}{{ 'cart.pageTitle'|trans }}{% endblock %}
 
 {% block body %}
     <div class="bg-slate-100 px-10 py-10 h-screen flex flex-col justify-start gap-10">
-        <h1 class="text-3xl font-bold">Panier</h1>
+        <h1 class="text-3xl font-bold">{{ 'cart.pageTitle'|trans }}</h1>
         {% if content is not empty %}
             {% set totalCart = 0 %}
 
@@ -16,20 +16,20 @@
                     }}" type="number" value="{{ pro.quantity }}" min="1" max="{{pro.products.supply}}">
                     {% set unit = pro.products.price / 100 %}
                     {% set total = unit * pro.quantity %}
-                    <p>Prix Unité : {{ unit }} €</p>
-                    <p>Total : <span data-total>{{ total }}</span> €</p>
+                    <p>{{ 'cart.unitPrice'|trans }} : {{ unit }} €</p>
+                    <p>{{ 'cart.total'|trans }} : <span data-total>{{ total }}</span> €</p>
                     <div class="message"></div>
-                    <a class="text-red-500" href="{{ path('app_content_basket_delete', {'id': pro.id})}}">Supprimer</a>
+                    <a class="text-red-500" href="{{ path('app_content_basket_delete', {'id': pro.id})}}">{{ 'button.delete'|trans }}</a>
                 </div>
             {% endfor %}
 
             {% for pro in content %}
                 {% set totalCart = totalCart + (pro.products.price / 100 * pro.quantity) %}
             {% endfor %}
-            <p>Total Panier : <span data-totalcart>{{ totalCart }}</span> €</p>
+            <p>{{ 'cart.totalCart'|trans }} : <span data-totalcart>{{ totalCart }}</span> €</p>
 
-            <a href="{{ path('app_stripe') }}">Payer</a>
+            <a href="{{ path('app_stripe') }}">{{ 'stripe.pay'|trans }}</a>
         {% else %}
-            <p>Votre panier est vide</p>
+            <p>{{ 'cart.emptyCart'|trans }}</p>
         {% endif %}
 {% endblock %}

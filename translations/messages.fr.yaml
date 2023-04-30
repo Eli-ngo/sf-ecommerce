@@ -1,2 +1,117 @@
+base:
+  pageTitle: Ecommerce - Sneakers Peek
+  home: Accueil
+  hello: Bonjour
+  cart: Panier
+  myAccount: Mon compte
+  logout: Déconnexion
+  login: Connexion
+
 product:
+  pageTitle: Accueil | Produits
   title: Accueil (produits)
+  outOfStock: Produit non disponible
+  productPage: Page produit
+
+button:
+  addProduct: Ajouter un produit
+  addToCart: Ajouter au panier
+  editProduct: Modifier le produit
+  deleteProduct: Supprimer le produit
+  register: S'inscrire
+  login: Se connecter
+  modify: Modifier
+  returnHome: Retour à l'accueil
+  delete: Supprimer
+
+registration:
+  pageTitle: Inscription
+  password: Mot de passe
+  agree: J'accepte les conditions d'utilisation
+  lastName: Nom
+  firstName: Prénom
+  email: Email
+
+login:
+  pageTitle: Connexion
+  password: Mot de passe
+  email: Email
+  yourEmail: Votre email
+  forgotPassword: Mot de passe oublié
+  yourPassword: Votre mot de passe
+  noAccount: Pas encore de compte ?
+  createAccount: Créer un compte
+
+user:
+  pageTitle: Mon compte
+  personalInfo: Informations personnelles
+  firstName: Prénom
+  lastName: Nom
+  email: Email
+  messageNoUser: Vous n'êtes pas connecté
+  orderHistory: Historique des commandes
+  order: Commande
+  details: Détails
+  total: Total
+  noOrder: Vous n'avez pas encore passé de commande
+  modify: Modifier
+
+order:
+  pageTitle: Commande
+  details: Détails de la commande
+  total: Total
+  noOrder: Vous n'avez pas encore passé de commande
+
+stripe:
+  pageTitle: Paiement
+  total: Total
+  pay: Payer
+  orderConfirmation: Confirmation de commande
+  orderConfirmed: Commande confirmée
+  orderSaved: Votre commande a bien été enregistrée
+
+cart:
+  pageTitle: Panier
+  unitPrice: Prix unitaire
+  total: Total
+  totalCart: Total du panier
+  emptyCart: Votre panier est vide
+
+flash:
+  noContent: Contenu introuvable
+  cannotDelete: Impossible de supprimer
+  contentBasketDeleted: Contenu du panier supprimé
+  noProduct: Produit introuvable
+  noStock: Stock insuffisant
+  productAdded: Produit ajouté au panier
+  accountCreated: Compte créé
+  alreadyConnected: Vous êtes déjà connecté
+  profileUpdated: Profil mis à jour
+  cannotFindBasket: Panier introuvable
+
+Sauvegarder: Sauvegarder
+First name: Prénom
+Last name: Nom
+Email: Email
+Product: Produit
+Dashboard: Tableau de bord
+Users: Utilisateurs
+Pending Baskets: Paniers en attente
+Name: Nom
+Description: Description
+Price: Prix
+Supply: Stock
+Image: Image
+User: Utilisateur
+Basket: Panier
+ID: ID
+State: Etat
+Content Baskets: Contenu du panier
+Transaction Id: ID de transaction
+Firstname: Prénom
+Lastname: Nom
+Roles: Rôles
+Created At: Créé le
+Password: Mot de passe
+(Repeat): (Répéter)
+Image File: Fichier image

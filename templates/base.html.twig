@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Ecommerce - Sneakers Peek{% endblock %}</title>
+        <title>{% block title %}{{ 'base.pageTitle'|trans }}{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
 
@@ -21,10 +21,10 @@
             <nav class="flex flex-column justify-between items-center bg-neutral-800 text-white px-8 py-6">
                 <div>
                     <ul class="flex flex-column justify-center gap-5 items-center">
-                        <li><a href="{{ path('app_product') }}">ACCUEIL</a></li>
+                        <li><a href="{{ path('app_product') }}">{{ 'base.home'|trans }}</a></li>
                         {% if app.user %}
                             <li>
-                                <p class="font-bold">Bonjour {{ app.user.firstName }} {{ app.user.lastName }} !</p>
+                                <p class="font-bold">{{ 'base.hello'|trans }} {{ app.user.firstName }} {{ app.user.lastName }} !</p>
                             </li>
                         {% endif %}
                     </ul>
@@ -32,18 +32,18 @@
                 <div>
                     <ul class="flex flex-column justify-center gap-5 items-center">
                             <li>
-                                <a href="{{ path('app_basket') }}"><i class="fas fa-basket-shopping mr-2 text-xl"></i>PANIER</a>
+                                <a href="{{ path('app_basket') }}"><i class="fas fa-basket-shopping mr-2 text-xl"></i>{{ 'base.cart'|trans }}</a>
                             </li>
                         {% if app.user %}
                             <li>
-                                <a href="{{ path('app_user') }}">Mon compte</a>
+                                <a href="{{ path('app_user') }}">{{ 'base.myAccount'|trans }}</a>
                             </li>
                             <li>
-                                <a href="{{ path('app_logout') }}" class="text-green-300 py-2 px-2 border border-green-300 rounded-xl">SE DÉCONNECTER<i class="fas fa-sign-out ml-2"></i></a>
+                                <a href="{{ path('app_logout') }}" class="text-green-300 py-2 px-2 border border-green-300 rounded-xl">{{ 'base.logout'|trans }}<i class="fas fa-sign-out ml-2"></i></a>
                             </li>
                         {% else %}
                             <li>
-                                <a href="{{ path('app_login') }}" class="text-green-300 py-2 px-2 border border-green-300 rounded-xl">CONNEXION</a>
+                                <a href="{{ path('app_login') }}" class="text-green-300 py-2 px-2 border border-green-300 rounded-xl">{{ 'base.login'|trans }}</a>
                             </li>
                         {% endif %}
                     </ul>

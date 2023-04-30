@@ -1,9 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1 class="text-3xl font-bold">Commande confirmée</h1>
-    
-    <p class="mt-4 mb-8">Votre commande a bien été enregistrée.</p>
+{% block title %}{{ 'stripe.orderConfirmation'|trans }}{% endblock %}
 
-    <a href="{{ path('app_product') }}" class="btn btn-lg btn-primary font-bold bg-green-300 py-2 px-2 border-2 border-black rounded-xl">Retour à l'accueil</a>
+{% block body %}
+    <h1 class="text-3xl font-bold">{{ 'stripe.orderConfirmed'|trans }}</h1>
+    
+    <p class="mt-4 mb-8">{{ 'stripe.orderSaved'|trans }}</p>
+
+    <a href="{{ path('app_product') }}" class="btn btn-lg btn-primary font-bold bg-green-300 py-2 px-2 border-2 border-black rounded-xl">{{ 'button.returnHome'|trans }}</a>
 {% endblock %}

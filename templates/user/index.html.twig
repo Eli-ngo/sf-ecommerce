@@ -1,47 +1,48 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}MON COMPTE{% endblock %}
+{% block title %}{{ 'user.pageTitle'|trans}}{% endblock %}
 
 {% block body %}
     <div class="bg-slate-100 h-screen flex flex-col justify-start items-center py-10 gap-10">
-        <h1 class="text-4xl font-bold">Mon compte</h1>
+        <h1 class="text-4xl font-bold">{{ 'user.pageTitle'|trans}}</h1>
         <div class="bg-white py-8 px-8 w-4/5 rounded-xl shadow-md flex flex-col gap-6">
             {% if app.user is not null %}
                 <div class="flex items-center gap-5">
-                    <h2 class="text-2xl font-bold">INFORMATIONS PERSONNELLES</h2>
-                    <a class="btn btn-lg btn-primary font-bold bg-green-300 py-2 px-2 border-2 border-black rounded" href="{{ path('user_edit') }}">Modifier</a>
+                    <h2 class="text-2xl font-bold">{{ 'user.personalInfo'|trans}}</h2>
+                    <a class="btn btn-lg btn-primary font-bold bg-green-300 py-2 px-2 border-2 border-black rounded" href="{{ path('user_edit') }}">{{ 'button.modify'|trans}}</a>
                 </div>
                 <div class="flex flex-col gap-2">
-                    <p><span class="font-bold">Nom :</span> {{ app.user.lastName }}</p>
-                    <p><span class="font-bold">Prénom :</span> {{ app.user.firstName }}</p>
-                    <p><span class="font-bold">Email :</span> {{ app.user.email }}</p>
+                    <p><span class="font-bold">{{ 'user.lastName'|trans}} :</span> {{ app.user.lastName }}</p>
+                    <p><span class="font-bold">{{ 'user.firstName'|trans}} :</span> {{ app.user.firstName }}</p>
+                    <p><span class="font-bold">{{ 'user.email'|trans}} :</span> {{ app.user.email }}</p>
                 </div>
             {% else %}
-                <p>Veuillez vous connecter pour accéder.</p>
+                <p>{{ 'user.messageNoUser'|trans}}</p>
             {% endif %}
         </div>
 
-        <div class="bg-neutral-800 py-8 px-8 w-4/5 rounded-xl shadow-md flex flex-col gap-6">
-            <h2 class="text-2xl font-bold text-white">HISTORIQUE DE COMMANDES</h2>
-
-            {% if baskets is not empty %}
-                {% for basket in baskets %}
-                    <div class="bg-neutral-600 mb-4 flex flex-row justify-between items-center px-10 py-10 rounded-xl">
-                        <div class="flex gap-4">
-                            <p class="text-white">Commande #<span class="font-bold">{{basket.transactionId}}</span></p>
-                            {% set totalProduct = 0 %}
-                            {% set quantity = 0 %}
-                            {% for basketContent in basket.contentBaskets %}
-                                    {% set totalProduct = totalProduct + basketContent.products.price * basketContent.quantity %}
-                            {% endfor %}
-                            <a class="text-green-300" href="{{ path('app_user_order_detail', { 'id': basket.id }) }}">Voir détails</a>
+        <div class="bg-neutral-800 py-8 px-8 w-4/5 rounded-xl shadow-md">
+            <h2 class="text-2xl font-bold text-white mb-6">{{ 'user.orderHistory'|trans}}</h2>
+            <div class="flex flex-col-reverse gap-6">
+                {% if baskets is not empty %}
+                    {% for basket in baskets %}
+                        <div class="bg-neutral-600 mb-4 flex flex-row justify-between items-center px-10 py-10 rounded-xl">
+                            <div class="flex gap-4">
+                                <p class="text-white">{{ 'user.order'|trans}} #<span class="font-bold">{{basket.transactionId}}</span></p>
+                                {% set totalProduct = 0 %}
+                                {% set quantity = 0 %}
+                                {% for basketContent in basket.contentBaskets %}
+                                        {% set totalProduct = totalProduct + basketContent.products.price * basketContent.quantity %}
+                                {% endfor %}
+                                <a class="text-green-300" href="{{ path('app_user_order_detail', { 'id': basket.id }) }}">{{ 'user.details'|trans}}</a>
+                            </div>
+                            <p class="text-white text-2xl"><span class="font-bold">{{ 'user.total'|trans}} :</span> {{ totalProduct / 100}}€</p>
                         </div>
-                        <p class="text-white text-2xl"><span class="font-bold">Total :</span> {{ totalProduct / 100}}€</p>
-                    </div>
-                {% endfor %}
-            {% else %}
-                <p class="text-white">Vous n'avez pas encore passé de commande</p>
-            {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <p class="text-white">{{ 'user.noOrder'|trans}}</p>
+                {% endif %}
+            </div>
         </div>
     </div>
 {% endblock %}

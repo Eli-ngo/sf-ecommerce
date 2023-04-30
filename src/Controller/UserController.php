@@ -11,6 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Basket;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Security("is_granted('ROLE_USER')")
@@ -23,7 +24,7 @@ class UserController extends AbstractController
 
         $baskets = $em->getRepository(Basket::class)->findBy([
             'user' => $this->getUser(),
-            'state' => true
+            'state' => true,
         ]);
         
         return $this->render('user/index.html.twig', [
@@ -32,7 +33,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/user/edit', name: 'user_edit')]
-    public function edit(Request $r, EntityManagerInterface $em): Response
+    public function edit(Request $r, EntityManagerInterface $em, TranslatorInterface $translator): Response
     {
         $currentUser = $this->getUser();
 
@@ -42,7 +43,7 @@ class UserController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $em->persist($currentUser);
             $em->flush();
-            $this->addFlash('success', 'Votre profil a bien été modifié');
+            $this->addFlash('success', $translator->trans('flash.profileUpdated'));
         }
 
         return $this->render('user/edit.html.twig', [
@@ -51,20 +52,20 @@ class UserController extends AbstractController
     }
 
     #[Route('/user/basket/{id}', name: 'app_user_order_detail')]
-    public function basket(Basket $basket = null, EntityManagerInterface $em): Response
+    public function basket(Basket $basket = null, EntityManagerInterface $em, TranslatorInterface $translator): Response
     {
         if ($basket == null) {
-            $this->addFlash('danger', 'Panier introuvable');
+            $this->addFlash('danger', $translator->trans('flash.cannotFindBasket'));
             return $this->redirectToRoute('app_user');
         }
 
         if ($basket->getUser() != $this->getUser()) {
-            $this->addFlash('danger', 'Impossible de consulter ce panier');
+            $this->addFlash('danger', $translator->trans('flash.cannotFindBasket'));
             return $this->redirectToRoute('app_user');
         }
 
         if($basket->isState() == false){
-            $this->addFlash('danger', 'Impossible de consulter ce panier');
+            $this->addFlash('danger', $translator->trans('flash.cannotFindBasket'));
             return $this->redirectToRoute('app_user');
         }
 

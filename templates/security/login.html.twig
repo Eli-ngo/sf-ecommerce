@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Connexion{% endblock %}
+{% block title %}{{ 'login.pageTitle'|trans }}{% endblock %}
 
 {% block body %}
 <div class="bg-neutral-600 flex justify-center items-center px-8 pt-6 pb-8 w-full h-screen">
@@ -9,37 +9,26 @@
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-        <h1 class="text-4xl font-bold text-center text-white loginText">Connexion</h1>
+        <h1 class="text-4xl font-bold text-center text-white loginText">{{ 'login.pageTitle'|trans }}</h1>
         <div>
             <div class="flex flex-col mb-8">
-                <label for="inputEmail" class="font-bold text-xl text-white">Email</label>
-                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control bg-neutral-800 border-b-2 border-white px-2 py-2 text-white" autocomplete="email" required autofocus placeholder="Votre adresse email" >
+                <label for="inputEmail" class="font-bold text-xl text-white">{{ 'login.email'|trans }}</label>
+                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control bg-neutral-800 border-b-2 border-white px-2 py-2 text-white" autocomplete="email" required autofocus placeholder="{{'login.yourEmail'|trans}}" >
             </div>
             <div class="flex flex-col">
-                <label for="inputPassword" class="font-bold text-xl text-white">Mot de passe</label>
-                <input type="password" name="password" id="inputPassword" class="form-control bg-neutral-800 border-b-2 border-white px-2 py-2 text-white" autocomplete="current-password" required placeholder="Votre mot de passe">
+                <label for="inputPassword" class="font-bold text-xl text-white">{{ 'login.password'|trans }}</label>
+                <input type="password" name="password" id="inputPassword" class="form-control bg-neutral-800 border-b-2 border-white px-2 py-2 text-white" autocomplete="current-password" required placeholder="{{'login.yourPassword'|trans}}">
             </div>
         </div>
         <div class="flex flex-col items-center gap-2">
-            <button class="btn btn-lg btn-primary font-bold bg-green-300 py-2 px-2 border-2 border-black rounded" type="submit">Se connecter</button>
-            <h2 class="text-xl text-white">Pas encore de compte ?</h2>
-            <a href="{{ path('app_register') }}" class="font-bold text-white">Créer un compte</a>
+            <button class="btn btn-lg btn-primary font-bold bg-green-300 py-2 px-2 border-2 border-black rounded" type="submit">{{ 'button.login'|trans }}</button>
+            <h2 class="text-xl text-white">{{'login.noAccount'|trans}}</h2>
+            <a href="{{ path('app_register') }}" class="font-bold text-white">{{ 'login.createAccount'|trans }}</a>
         </div>
 
         <input type="hidden" name="_csrf_token"
             value="{{ csrf_token('authenticate') }}"
         >
-
-    {#
-        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-        See https://symfony.com/doc/current/security/remember_me.html
-
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Remember me
-            </label>
-        </div>
-    #}
 
 </form>
 </div>

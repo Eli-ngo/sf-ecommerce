@@ -49,6 +49,8 @@ class BasketCrudController extends AbstractCrudController
             BooleanField::new('state'),
             CollectionField::new('contentBaskets')
                 ->setFormTypeOption('by_reference', false),
+            TextField::new('transactionId')
+                ->hideOnIndex(),
             AssociationField::new('contentBaskets')
                 ->formatValue(function ($value, $entity) {
                     $products = [];
@@ -57,6 +59,7 @@ class BasketCrudController extends AbstractCrudController
                     }
                     return implode(', ', $products);
                 })
+                ->hideOnForm(),
             
         ];
     }

@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}ACCUEIL | Produits{% endblock %}
+{% block title %}{{ 'product.pageTitle'|trans }}{% endblock %}
 
 {% block body %}
     <div class="px-8 pt-6 pb-8 bg-slate-100">
         {# Si vous êtes connecté avec un rôle ROLE_ADMIN, vous devez pouvoir ajouter un produit sur cette page. #}
         {% if is_granted('ROLE_ADMIN') %}
-            <a href="{{ path('admin')}}?entity=Product&crudAction=new" class="btn btn-primary text-white bg-black py-2 px-2 rounded shadow-md w-1/6">Ajouter un produit</a>
+            <a href="{{ path('admin')}}?entity=Product&crudAction=new" class="btn btn-primary text-white bg-black py-2 px-2 rounded shadow-md w-1/6">{{ 'button.addProduct'|trans }}</a>
         {% endif %}
         <h1 class="text-3xl font-bold text-center">{{ 'product.title'|trans }}</h1>
     {% if products is not empty %}
@@ -24,12 +24,12 @@
                         <a href="{{ path('product_detail', {'id': product.id}) }}" class="btn btn-primary font-bold text-xl">{{ product.name }}</a>
                     </div>
                     <div class="mb-4 flex flex-col items-end">
-                        <p class="font-bold mb-4">€ {{ product.price / 100}}</p>
+                        <p class="font-bold mb-4">{{ product.price / 100}} €</p>
                         {% if app.user is not null %}
                             {% if product.supply > 0 %}
                                 <a href="{{ path('app_product_add', {'id': product.id}) }}" class="btn btn-primary bg-green-300 py-2 px-2 rounded shadow-md"><i class="fas fa-basket-shopping"></i></a>
                             {% else %}
-                                <p class="text-red-500">Produit indisponible</p>
+                                <p class="text-red-500">{{ 'product.outOfStock'|trans }}</p>
                             {% endif %}
                         {% endif %}
                     </div>
