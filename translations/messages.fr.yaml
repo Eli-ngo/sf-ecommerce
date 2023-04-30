@@ -12,6 +12,7 @@ product:
   title: Accueil (produits)
   outOfStock: Produit non disponible
   productPage: Page produit
+  productNotFound: Produit introuvable
 
 button:
   addProduct: Ajouter un produit

@@ -12,6 +12,7 @@ product:
   title: Home (products)
   outOfStock: Product not available
   productPage: Product page
+  productNotFound: Product not found
 
 button:
   addProduct: Add a product

@@ -4,32 +4,44 @@
 
 {% block body %}
     <div class="bg-slate-100 px-10 py-10 h-screen flex flex-col justify-start gap-10">
-        <h1 class="text-3xl font-bold">{{ 'cart.pageTitle'|trans }}</h1>
+        <div class="flex flex-col justify-between gap-6">
+            <h1 class="text-3xl font-bold">{{ 'cart.pageTitle'|trans }}</h1>
         {% if content is not empty %}
             {% set totalCart = 0 %}
 
             {% for pro in content %}
-                <div class="bg-white py-4 px-4 mb-8 border-2 border-grey-900" data-content="{{pro.id}}">
-                    <h2 class="font-bold">{{ pro.products.name }}</h2>
-                    <input class="quantity" data-url="{{
+                <div class="bg-white py-4 px-4 mb-2 border-2 border-grey-900 flex justify-between items-center">
+                    <div data-content="{{pro.id}}">
+                        <h2 class="font-bold">{{ pro.products.name }}</h2>
+                        <input class="quantity border border-black rounded mr-2" data-url="{{
                         path('app_content_basket_change_quantity', {'id': pro.id, 'quantity': 1})
-                    }}" type="number" value="{{ pro.quantity }}" min="1" max="{{pro.products.supply}}">
-                    {% set unit = pro.products.price / 100 %}
-                    {% set total = unit * pro.quantity %}
-                    <p>{{ 'cart.unitPrice'|trans }} : {{ unit }} €</p>
-                    <p>{{ 'cart.total'|trans }} : <span data-total>{{ total }}</span> €</p>
-                    <div class="message"></div>
-                    <a class="text-red-500" href="{{ path('app_content_basket_delete', {'id': pro.id})}}">{{ 'button.delete'|trans }}</a>
+                        }}" type="number" value="{{ pro.quantity }}" min="1" max="{{pro.products.supply}}">
+                        {% set unit = pro.products.price / 100 %}
+                        {% set total = unit * pro.quantity %}
+                        <p class="inline-block">Modifier la quantité</p>
+
+                        <p>{{ 'cart.unitPrice'|trans }} : {{ unit }} €</p>
+                        <p>{{ 'cart.total'|trans }} : <span data-total>{{ total }}</span> €</p>
+                        <div class="message"></div>
+                        <a class="text-red-500" href="{{ path('app_content_basket_delete', {'id': pro.id})}}">{{ 'button.delete'|trans }}</a>
+                    </div>
+                    {% if pro.products.image is not null %}
+                        <img src="{{ asset('uploads/' ~ pro.products.image) }}" alt="{{ pro.products.name }}" style="max-width: 150px;">
+                    {% else %}
+                        <img src="{{ asset('uploads/default-placeholder.png') }}" alt="{{ pro.products.name }}" style="max-width: 150px;">
+                    {% endif %}
                 </div>
             {% endfor %}
 
             {% for pro in content %}
                 {% set totalCart = totalCart + (pro.products.price / 100 * pro.quantity) %}
             {% endfor %}
-            <p>{{ 'cart.totalCart'|trans }} : <span data-totalcart>{{ totalCart }}</span> €</p>
+            <p class="text-2xl font-bold">{{ 'cart.totalCart'|trans }} : <span data-totalcart>{{ totalCart }}</span> €</p>
 
-            <a href="{{ path('app_stripe') }}">{{ 'stripe.pay'|trans }}</a>
+            <a href="{{ path('app_stripe') }}" class="btn btn-lg btn-primary text-center font-bold uppercase bg-green-300 py-2 px-2 border-2 border-black rounded w-44">{{ 'stripe.pay'|trans }}</a>
+        </div>
         {% else %}
             <p>{{ 'cart.emptyCart'|trans }}</p>
         {% endif %}
+    </div>
 {% endblock %}
