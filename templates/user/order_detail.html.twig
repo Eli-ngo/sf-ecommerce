@@ -3,22 +3,35 @@
 {% block title %}{{ 'order.pageTitle'|trans }}{% endblock %}
 
 {% block body %}
-<div class="bg-neutral-600 flex justify-center items-center px-8 pt-6 pb-8 w-full h-screen">
-    <div class="bg-neutral-800 rounded-xl px-8 pt-6 pb-4 flex flex-col justify-between">
+<div class="bg-neutral-600 flex justify-center items-center px-8 pt-6 pb-8 w-full h-screen flex-col gap-6">
+    <div class="bg-neutral-800 rounded-xl px-8 pt-6 pb-8 flex flex-col justify-between gap-14">
             {% if basket is not empty %}
             <h1 class="text-4xl font-bold text-white">{{ 'order.details'|trans }} #{{basket.transactionId}}</h1>
                 {# Panier du {{ basket.createdAt|date('d/m/Y') }}<br> #}
+            <div class="flex flex-col">
                 {% set total = 0 %}
                 {% for product in basket.contentBaskets %}
-                    {{ product.products.name }}<br>
-                    {{ product.products.price / 100 }}<br>
-                    {% set total = total + ( product.products.price * product.quantity / 100 ) %}
-                    x {{ product.quantity }}<br>
+                <div class="flex justify-between mb-6">
+                    <div class="text-white flex flex-col gap-2">
+                        <p class="font-bold text-xl">{{ product.products.name }}</p>
+                        <p>Quantité : {{ product.quantity }}</p>
+                    </div>
+                    <p class="text-white">
+                        {{ product.products.price / 100 }} €
+                        {% set total = total + ( product.products.price * product.quantity / 100 ) %}
+                    </p>
+                </div>
                 {% endfor %}
-                {{ 'order.total'|trans }} {{ total }}
+                <div class="w-full h-px bg-white">
+            </div>
+            </div>
+            <div class="text-green-300 text-2xl flex items-end">
+                <p>{{ 'order.total'|trans }} : {{ total }} €</p>
+            </div>
             {% else %}
-                <p>{{ 'order.noOrder'|trans }}</p>
+                <p class="text-white">{{ 'order.noOrder'|trans }}</p>
             {% endif %}
     </div>
+    <a href="{{ path('app_user') }}" class="btn btn-primary text-white bg-black py-2 px-2 rounded shadow-md">Retour</a>
 </div>
 {% endblock %}
