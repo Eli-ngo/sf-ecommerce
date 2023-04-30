@@ -20,7 +20,7 @@
         <header>
             <nav class="flex flex-column justify-between items-center bg-neutral-800 text-white px-8 py-6">
                 <div>
-                    <ul class="flex flex-column justify-center gap-5">
+                    <ul class="flex flex-column justify-center gap-5 items-center">
                         <li><a href="{{ path('app_product') }}">ACCUEIL</a></li>
                         {% if app.user %}
                             <li>
@@ -30,7 +30,7 @@
                     </ul>
                 </div>
                 <div>
-                    <ul class="flex flex-column justify-center gap-5">
+                    <ul class="flex flex-column justify-center gap-5 items-center">
                             <li>
                                 <a href="{{ path('app_basket') }}"><i class="fas fa-basket-shopping mr-2 text-xl"></i>PANIER</a>
                             </li>
@@ -54,7 +54,7 @@
         {# MESSAGES d'ERREUR FLASH #}
         {% for type, messages in app.flashes %}
             {% for m in messages %}
-                <p class="alert alert-{{type}}">{{ m }}</p>
+                <p class="alert alert-{{type}} absolute top-25 right-1/2 transform translate-x-1/2 -translate-y-1/2 w-10/12">{{ m }}</p>
             {% endfor %}
         {% endfor %}
 

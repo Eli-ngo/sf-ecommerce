@@ -42,6 +42,15 @@ function eventChangeQuantity() {
     });
 }
 
+function hideFlashMessage() {
+    let flashMessage = document.querySelectorAll('.alert');
+    flashMessage.forEach(flash => {
+        setTimeout(() => {
+            flash.style.display = 'none';
+        }, 3000);
+    });
+}
 window.addEventListener('load', () => {
     eventChangeQuantity();
+    hideFlashMessage();
 });
