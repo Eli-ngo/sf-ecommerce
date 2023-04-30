@@ -16,6 +16,20 @@ class UserController extends AbstractController
     #[Route('/user', name: 'app_user')]
     public function index(Request $r, EntityManagerInterface $em): Response
     {
+
+        $baskets = $em->getRepository(Basket::class)->findBy([
+            'user' => $this->getUser(),
+            'state' => true
+        ]);
+        
+        return $this->render('user/index.html.twig', [
+            'baskets' => $baskets,
+        ]);
+    }
+
+    #[Route('/user/edit', name: 'user_edit')]
+    public function edit(Request $r, EntityManagerInterface $em): Response
+    {
         $currentUser = $this->getUser();
 
         $form = $this->createForm(UserType::class, $currentUser);
@@ -27,14 +41,8 @@ class UserController extends AbstractController
             $this->addFlash('success', 'Votre profil a bien été modifié');
         }
 
-        $baskets = $em->getRepository(Basket::class)->findBy([
-            'user' => $this->getUser(),
-            'state' => true
-        ]);
-        
-        return $this->render('user/index.html.twig', [
+        return $this->render('user/edit.html.twig', [
             'edit' => $form->createView(),
-            'baskets' => $baskets,
         ]);
     }
 

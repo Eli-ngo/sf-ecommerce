@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}MON COMPTE | Modifications{% endblock %}
+
+{% block body %}
+<div class="bg-slate-100 flex flex-col justify-center items-center px-8 pt-6 pb-8 w-full h-screen">
+    <h1 class="text-4xl font-bold">Mes informations</h1>
+    <div>
+        {% if app.user is not null %}
+            {{ form(edit) }}
+        {% else %}
+            <p>Vous n'êtes pas connecté</p>
+        {% endif %}
+    </div>
+    {# bouton de retour #}
+    <a href="{{ path('app_user') }}" class="btn btn-primary text-white bg-black py-2 px-2 rounded shadow-md w-1/6">Retour</a>
+</div>
+
+{% endblock %}

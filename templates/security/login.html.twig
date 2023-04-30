@@ -3,27 +3,27 @@
 {% block title %}Connexion{% endblock %}
 
 {% block body %}
-<div class="bg-slate-100 flex justify-center items-center px-8 pt-6 pb-8 w-full h-screen">
-    <form method="post" class="bg-white rounded-xl px-8 pt-6 pb-4 mt-8 mb-2 w-2/6 h-4/6 flex flex-col justify-between">
+<div class="bg-neutral-600 flex justify-center items-center px-8 pt-6 pb-8 w-full h-screen">
+    <form method="post" class="bg-neutral-800 rounded-xl px-8 pt-6 pb-4 mt-8 mb-2 w-2/6 h-4/6 flex flex-col justify-between">
     {% if error %}/
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-        <h1 class="text-4xl font-bold text-center">Connexion</h1>
+        <h1 class="text-4xl font-bold text-center text-white loginText">Connexion</h1>
         <div>
             <div class="flex flex-col mb-8">
-                <label for="inputEmail" class="font-bold text-xl">Email</label>
-                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control border-b-2 border-black px-2 py-2" autocomplete="email" required autofocus placeholder="Votre adresse email" >
+                <label for="inputEmail" class="font-bold text-xl text-white">Email</label>
+                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control bg-neutral-800 border-b-2 border-white px-2 py-2 text-white" autocomplete="email" required autofocus placeholder="Votre adresse email" >
             </div>
             <div class="flex flex-col">
-                <label for="inputPassword" class="font-bold text-xl">Password</label>
-                <input type="password" name="password" id="inputPassword" class="form-control border-b-2 border-black px-2 py-2" autocomplete="current-password" required placeholder="Votre mot de pass">
+                <label for="inputPassword" class="font-bold text-xl text-white">Mot de passe</label>
+                <input type="password" name="password" id="inputPassword" class="form-control bg-neutral-800 border-b-2 border-white px-2 py-2 text-white" autocomplete="current-password" required placeholder="Votre mot de passe">
             </div>
         </div>
         <div class="flex flex-col items-center gap-2">
-            <button class="btn btn-lg btn-primary font-bold bg-green-300 py-2 px-2 border-2 border-black rounded-xl" type="submit">Se connecter</button>
-            <h2 class="text-xl">Pas encore de compte ?</h2>
-            <a href="{{ path('app_register') }}" class="font-bold">Créer un compte</a>
+            <button class="btn btn-lg btn-primary font-bold bg-green-300 py-2 px-2 border-2 border-black rounded" type="submit">Se connecter</button>
+            <h2 class="text-xl text-white">Pas encore de compte ?</h2>
+            <a href="{{ path('app_register') }}" class="font-bold text-white">Créer un compte</a>
         </div>
 
         <input type="hidden" name="_csrf_token"

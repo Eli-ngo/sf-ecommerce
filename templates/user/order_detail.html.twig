@@ -3,18 +3,22 @@
 {% block title %}Hello UserController!{% endblock %}
 
 {% block body %}
-    <h1 class="text-4xl font-bold">Détail de la commande</h1>
-    {% if basket is not empty %}
-        {# Panier du {{ basket.createdAt|date('d/m/Y') }}<br> #}
-        {% set total = 0 %}
-        {% for product in basket.contentBaskets %}
-            {{ product.products.name }}<br>
-            {{ product.products.price / 100 }}<br>
-            {% set total = total + ( product.products.price * product.quantity / 100 ) %}
-            x {{ product.quantity }}<br>
-        {% endfor %}
-        Total de  : {{ total }}
-    {% else %}
-        <p>Vous n'avez pas encore passé de commande</p>
-    {% endif %}
+<div class="bg-neutral-600 flex justify-center items-center px-8 pt-6 pb-8 w-full h-screen">
+    <div class="bg-neutral-800 rounded-xl px-8 pt-6 pb-4 flex flex-col justify-between">
+            {% if basket is not empty %}
+            <h1 class="text-4xl font-bold text-white">Détail de la commande #{{basket.transactionId}}</h1>
+                {# Panier du {{ basket.createdAt|date('d/m/Y') }}<br> #}
+                {% set total = 0 %}
+                {% for product in basket.contentBaskets %}
+                    {{ product.products.name }}<br>
+                    {{ product.products.price / 100 }}<br>
+                    {% set total = total + ( product.products.price * product.quantity / 100 ) %}
+                    x {{ product.quantity }}<br>
+                {% endfor %}
+                Total de  : {{ total }}
+            {% else %}
+                <p>Vous n'avez pas encore passé de commande</p>
+            {% endif %}
+    </div>
+</div>
 {% endblock %}
