@@ -54,7 +54,7 @@
         {# MESSAGES d'ERREUR FLASH #}
         {% for type, messages in app.flashes %}
             {% for m in messages %}
-                <p class="alert alert-{{type}}">{{ m }}</p>
+                <p class="alert alert-{{type}} absolute top-25 right-1/2 transform translate-x-1/2 -translate-y-1/2 w-10/12">{{ m }}</p>
             {% endfor %}
         {% endfor %}
 
