@@ -118,6 +118,9 @@ class StripeController extends AbstractController
             $basket->setState(true);
             $basket->setTransactionId($id);
             $basket->setPurchaseDate(new \DateTimeImmutable());
+            for ($i=0; $i < count($basket->getContentBaskets()); $i++) { 
+                $basket->getContentBaskets()[$i]->getProducts()->setSupply($basket->getContentBaskets()[$i]->getProducts()->getSupply() - $basket->getContentBaskets()[$i]->getQuantity());
+            }
             $em->persist($basket);
             $em->flush();
         }
