@@ -7,7 +7,7 @@
     <h1 class="text-4xl font-bold">{{ 'user.personalInfo'|trans }}</h1>
     <div>
         {% if app.user is not null %}
-            {{ form(edit, {'attr': {'class': 'registrationForm'}}) }}
+            {{ form(edit, {'attr': {'class': 'editForm'}}) }}
         {% else %}
             <p>{{ 'user.messageNoUser'|trans }}</p>
         {% endif %}

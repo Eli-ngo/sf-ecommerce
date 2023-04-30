@@ -90,6 +90,23 @@ flash:
   profileUpdated: Profile updated
   cannotFindBasket: Cannot find basket
 
+error: 
+  errorTitle404: What a pity !
+  errorTitle403: Hold on ! Where do you think you're going ?
+  errorTitle500: Oops ! Something went wrong...
+  errorTitle: Error
+  errorType404: Error 404
+  errorType403: Error 403
+  errorType500: Error 500
+  errorType: Error
+  error404: Page not found
+  error403: Access forbidden
+  error500: Internal server error
+  errorDescription404: The page you are looking for does not exist.
+  errorDescription403: You are not allowed to access this page.
+  errorDescription500: An error has occurred on the server.
+  errorDescription: An error has occurred.
+
 
 First name: First Name
 Last name: Last Name

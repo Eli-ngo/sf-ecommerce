@@ -1,15 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Erreur 403{% endblock %}
+{% block title %}{{ 'error.errorType403'|trans }}{% endblock %}
 
 {% block body %}
 <div class="bg-neutral-600 flex justify-center items-center px-8 pt-6 pb-8 w-full h-screen">
     <div class="bg-white px-10 py-10 rounded-xl flex flex-col justify-center items-center gap-10">
         <img src="{{ asset('/errors/403.png') }}" alt="erreur 403">
-        <h1 class="text-3xl font-bold text-center">Minute papillon ! <br>Tu vas où comme ça ?</h1>
+        <h1 class="text-3xl font-bold text-center">{{ 'error.errorTitle403'|trans }}</h1>
         <div class="flex flex-col items-center gap-2">
-            <h2 class="text-2xl">Erreur 403 : Accès interdit</h2>
-            <p>Vous ne disposez pas de droits pour accéder à cette page.</p>
+            <h2 class="text-2xl">{{ 'error.errorType403'|trans }} : {{ 'error.error403'|trans }}</h2>
+            <p>{{ 'error.errorDescription403'|trans }}</p>
         </div>
         <a class="btn btn-lg btn-primary font-bold bg-green-300 py-2 px-2 border-2 border-black rounded" href="{{ path('app_product') }}">Retour à l'accueil</a>
                 </div>
