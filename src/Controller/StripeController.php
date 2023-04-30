@@ -9,10 +9,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\Basket;
 use App\Entity\ContentBasket;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Routing;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
-
+/**
+  * @Security("is_granted('ROLE_USER')")
+*/ 
 class StripeController extends AbstractController
 {
     #[Route('/stripe', name: 'app_stripe')]

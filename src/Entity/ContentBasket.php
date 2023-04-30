@@ -3,8 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ContentBasketRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ContentBasketRepository::class)]
@@ -17,6 +16,7 @@ class ContentBasket
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\PositiveOrZero]
     private ?int $quantity = null;
 
     #[ORM\Column]

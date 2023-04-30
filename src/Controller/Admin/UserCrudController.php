@@ -51,6 +51,13 @@ class UserCrudController extends AbstractCrudController
     //     ]);
     // }
 
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud->setFormOptions(
+            ['validation_groups' => ['Default', 'creation']], ['validation_groups' => ['Default', 'creation']]
+        );
+    }
+
     public function configureFilters(Filters $filters): Filters
     {
         return $filters

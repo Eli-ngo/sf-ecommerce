@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Product;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
@@ -19,6 +20,13 @@ class ProductCrudController extends AbstractCrudController
     public static function getEntityFqcn(): string
     {
         return Product::class;
+    }
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud->setFormOptions(
+            ['validation_groups' => ['Default', 'creation']], ['validation_groups' => ['Default', 'creation']]
+        );
     }
 
     public function configureFields(string $pageName): iterable

@@ -33,6 +33,13 @@ class BasketCrudController extends AbstractCrudController
         return $queryBuilder;
     }
 
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud->setFormOptions(
+            ['validation_groups' => ['Default', 'creation']], ['validation_groups' => ['Default', 'creation']]
+        );
+    }
+
     public function configureFields(string $pageName): iterable
     {
         return [

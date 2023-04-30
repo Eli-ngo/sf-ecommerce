@@ -24,9 +24,23 @@ class Product
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank(message: 'Le nom est obligatoire')]
+    #[Assert\Length(
+        min: 2,
+        max: 100,
+        minMessage: 'Le nom doit contenir au moins 2 caractères',
+        maxMessage: 'Le nom ne peut pas contenir plus de 100 caractères'
+    )]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank(message: 'La description est obligatoire')]
+    #[Assert\Length(
+        min: 10,
+        max: 10000,
+        minMessage: 'La description doit contenir au moins 10 caractères',
+        maxMessage: 'La description ne peut pas contenir plus de 10 000 caractères'
+    )]
     private ?string $description = null;
 
     #[ORM\Column]
@@ -35,13 +49,21 @@ class Product
         max: 10000,
         maxMessage: 'Le prix ne peut pas dépasser 10 000 €'
     )]
-
     private ?float $price = null;
 
     #[ORM\Column]
+    #[Assert\PositiveOrZero]
     private ?int $supply = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Image(
+        mimeTypes: ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'],
+        mimeTypesMessage: 'Le format de l\'image doit être JPEG ou PNG'
+    )]
+    #[Assert\Length(
+        max: 255,
+        maxMessage: 'Le nom du fichier ne peut pas contenir plus de 255 caractères'
+    )]
     private ?string $image = null;
 
     #[Vich\UploadableField(mapping: 'products', fileNameProperty: 'image')]
