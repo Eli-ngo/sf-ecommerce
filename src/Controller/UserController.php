@@ -31,11 +31,7 @@ class UserController extends AbstractController
             'user' => $this->getUser(),
             'state' => true
         ]);
-
-        // $content = $em->getRepository(ContentBasket::class)->findBy([
-        //     'basket' => $basket
-        // ]);
-
+        
         return $this->render('user/index.html.twig', [
             'edit' => $form->createView(),
             'baskets' => $baskets,

@@ -29,6 +29,7 @@ class ProductController extends AbstractController
     public function product(Product $product = null){
 
         if($product == null){
+            $this->addFlash('danger', 'Produit introuvable');
             return $this->redirectToRoute('app_product');
         }
 
@@ -43,6 +44,7 @@ class ProductController extends AbstractController
     public function add(Product $product = null, EntityManagerInterface $em): Response
     {
         if ($product == null) {
+            $this->addFlash('danger', 'Produit introuvable');
            return $this->redirectToRoute('app_product');
         }
         $basket = $em->getRepository(Basket::class);
@@ -68,6 +70,8 @@ class ProductController extends AbstractController
             $em->persist($contentBasket);
             $em->flush();
         }
+
+        $this->addFlash('success', 'Produit ajouté au panier');
 
         return $this->redirectToRoute('app_basket');
     }

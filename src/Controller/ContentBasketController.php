@@ -25,11 +25,14 @@ class ContentBasketController extends AbstractController
     public function delete(ContentBasket $content = null, EntityManagerInterface $em): Response
     {
         if ($content == null) {
+            $this->addFlash('danger', 'Contenu introuvable');
             return $this->redirectToRoute('app_basket');
         }
 
         $em->remove($content);
         $em->flush();
+
+        $this->addFlash('success', 'Contenu du panier supprimé');
 
         return $this->redirectToRoute('app_basket');
     }

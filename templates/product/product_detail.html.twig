@@ -15,7 +15,7 @@
                         <p class="font-bold">€ {{ product.price }}</p>
                         {# Il doit être possible d’ajouter le produit au panier à partir de cette page à condition d’être connecté. L’utilisateur connecté doit automatiquement être attribué à la commande. #}
                         {% if app.user is not null %}
-                        <a href="{{ path('app_product_add', {'id': product.id}) }}" class="btn btn-primary bg-green-300 py-2 px-2 rounded shadow-md"><i class="fas fa-basket-shopping mr-2"></i>Ajouter au panier</a>
+                            <a href="{{ path('app_product_add', {'id': product.id}) }}" class="btn btn-primary bg-green-300 py-2 px-2 rounded shadow-md"><i class="fas fa-basket-shopping mr-2"></i>Ajouter au panier</a>
                         {% endif %}
                     </div>
                 </div>
@@ -23,10 +23,10 @@
 
         {# Si vous êtes connecté avec un rôle ROLE_ADMIN, vous devez pouvoir modifier ou supprimer le produit. #}
         {% if is_granted('ROLE_ADMIN') %}
-        <div class="flex gap-6">
-            <a href="{{ path('admin') }}" class="btn btn-primary text-white bg-black py-2 px-2 rounded shadow-md">Modifier le produit</a>
-            <a href="{{ path('admin') }}" class="btn btn-primary text-white bg-red-600 py-2 px-2 rounded shadow-md">Supprimer le produit</a>
-        </div>
+            <div class="flex gap-6">
+                <a href="{{ path('admin') }}?entity=Product&crudAction=edit&entityId={{product.id}}" class="btn btn-primary text-white bg-black py-2 px-2 rounded shadow-md">Modifier le produit</a>
+                <a href="{{ path('admin') }}?entity=Product&crudAction=delete&entityId={{product.id}}" class="btn btn-primary text-white bg-red-600 py-2 px-2 rounded shadow-md">Supprimer le produit</a>
+            </div>
+        {% endif %}
     </div>
-    {% endif %}
 {% endblock %}

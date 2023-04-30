@@ -18,17 +18,6 @@
                     <p>Total : {{ total }} €</p>
                     <a class="text-red-500" href="{{ path('app_content_basket_delete', {'id': pro.id})}}">Supprimer</a>
                 </div>
-
-                {# {{ pro.products.name }} <br>
-                x {{ pro.quantity }} qty <br>
-                {% set unit = pro.products.price / 100 %}
-                {% set total = unit * pro.quantity %}
-                Prix Unité : {{ unit }} € <br>
-                Total : {{ total }} € <br>
-                <a class="text-red-500" href="{{ path('app_content_basket_delete', {'id': pro.id})}}">Supprimer</a>
-                <hr></hr> #}
-
-    </div>
             {% endfor %}
 
             {% for pro in content %}

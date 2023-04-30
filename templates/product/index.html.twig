@@ -6,7 +6,7 @@
     <div class="px-8 pt-6 pb-8 bg-slate-100">
         {# Si vous êtes connecté avec un rôle ROLE_ADMIN, vous devez pouvoir ajouter un produit sur cette page. #}
         {% if is_granted('ROLE_ADMIN') %}
-            <a href="http://localhost:8000/admin?crudAction=new&crudControllerFqcn=App%5CController%5CAdmin%5CProductCrudController&referrer=http://localhost:8000/admin?crudAction%3Dindex%26crudControllerFqcn%3DApp%255CController%255CAdmin%255CProductCrudController" class="btn btn-primary text-white bg-black py-2 px-2 rounded shadow-md w-1/6">Ajouter un produit</a>
+            <a href="{{ path('admin')}}?entity=Product&crudAction=new" class="btn btn-primary text-white bg-black py-2 px-2 rounded shadow-md w-1/6">Ajouter un produit</a>
         {% endif %}
         <h1 class="text-3xl font-bold text-center">{{ 'product.title'|trans }}</h1>
     {% if products is not empty %}
@@ -21,11 +21,12 @@
                     </div>
                     <div class="mb-4 flex flex-col items-end">
                         <p class="font-bold mb-4">€ {{ product.price }}</p>
-                        <a href="{{ path('app_product_add', {'id': product.id}) }}" class="btn btn-primary bg-green-300 py-2 px-2 rounded shadow-md"><i class="fas fa-basket-shopping"></i></a>
+                         {% if app.user is not null %}
+                            <a href="{{ path('app_product_add', {'id': product.id}) }}" class="btn btn-primary bg-green-300 py-2 px-2 rounded shadow-md"><i class="fas fa-basket-shopping"></i></a>
+                        {% endif %}
                     </div>
                 </div>
             {% endfor %}
-
     {% else %}
         <p>Aucun produit</p>
     {% endif %}
