@@ -9,10 +9,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\Basket;
 use App\Entity\ContentBasket;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Routing;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
-
+/**
+  * @Security("is_granted('ROLE_USER')")
+*/ 
 class StripeController extends AbstractController
 {
     #[Route('/stripe', name: 'app_stripe')]
@@ -118,6 +120,9 @@ class StripeController extends AbstractController
             $basket->setState(true);
             $basket->setTransactionId($id);
             $basket->setPurchaseDate(new \DateTimeImmutable());
+            for ($i=0; $i < count($basket->getContentBaskets()); $i++) { 
+                $basket->getContentBaskets()[$i]->getProducts()->setSupply($basket->getContentBaskets()[$i]->getProducts()->getSupply() - $basket->getContentBaskets()[$i]->getQuantity());
+            }
             $em->persist($basket);
             $em->flush();
         }

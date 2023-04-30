@@ -9,13 +9,16 @@
             {% set totalCart = 0 %}
 
             {% for pro in content %}
-                <div class="bg-white py-4 px-4 mb-8 border-2 border-grey-900">
+                <div class="bg-white py-4 px-4 mb-8 border-2 border-grey-900" data-content="{{pro.id}}">
                     <h2 class="font-bold">{{ pro.products.name }}</h2>
-                    <p>x {{ pro.quantity }} qty</p>
+                    <input class="quantity" data-url="{{
+                        path('app_content_basket_change_quantity', {'id': pro.id, 'quantity': 1})
+                    }}" type="number" value="{{ pro.quantity }}" min="1" max="{{pro.products.supply}}">
                     {% set unit = pro.products.price / 100 %}
                     {% set total = unit * pro.quantity %}
                     <p>Prix Unité : {{ unit }} €</p>
-                    <p>Total : {{ total }} €</p>
+                    <p>Total : <span data-total>{{ total }}</span> €</p>
+                    <div class="message"></div>
                     <a class="text-red-500" href="{{ path('app_content_basket_delete', {'id': pro.id})}}">Supprimer</a>
                 </div>
             {% endfor %}
@@ -23,7 +26,7 @@
             {% for pro in content %}
                 {% set totalCart = totalCart + (pro.products.price / 100 * pro.quantity) %}
             {% endfor %}
-            <p>Total Panier : {{ totalCart }} €</p>
+            <p>Total Panier : <span data-totalcart>{{ totalCart }}</span> €</p>
 
             <a href="{{ path('app_stripe') }}">Payer</a>
         {% else %}

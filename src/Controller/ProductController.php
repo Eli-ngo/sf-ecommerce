@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Basket;
 use App\Entity\ContentBasket;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class ProductController extends AbstractController
 {
@@ -39,7 +39,9 @@ class ProductController extends AbstractController
     }
 
     
-
+    /**
+     * @Security("is_granted('ROLE_USER')")
+    */
     #[Route('/product/add/{id}', name: 'app_product_add')]
     public function add(Product $product = null, EntityManagerInterface $em): Response
     {
@@ -47,6 +49,12 @@ class ProductController extends AbstractController
             $this->addFlash('danger', 'Produit introuvable');
            return $this->redirectToRoute('app_product');
         }
+
+        if($product->getSupply() < 1){
+            $this->addFlash('danger', 'Aucune quantité disponible');
+            return $this->redirectToRoute('app_product');
+        }
+
         $basket = $em->getRepository(Basket::class);
         $basket = $basket->findOneBy(['user' => $this->getUser() , 'state' => false]);
         if ($basket == null) {
@@ -67,6 +75,10 @@ class ProductController extends AbstractController
             $em->flush();
         }else{
             $contentBasket->setQuantity($contentBasket->getQuantity() + 1);
+            if($contentBasket->getQuantity() > $product->getSupply()){
+                $this->addFlash('danger', 'Aucune quantité disponible');
+                return $this->redirectToRoute('app_product');
+            }
             $em->persist($contentBasket);
             $em->flush();
         }

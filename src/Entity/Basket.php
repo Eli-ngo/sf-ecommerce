@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\BasketRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -18,12 +19,14 @@ class Basket
 
     #[ORM\ManyToOne(inversedBy: 'baskets')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank(message: 'L\'utilisateur est obligatoire')]
     private ?User $user = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $purchaseDate = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: 'Le statut est obligatoire')]
     private ?bool $state = null;
 
     #[ORM\OneToMany(mappedBy: 'basket', targetEntity: ContentBasket::class, orphanRemoval: true)]

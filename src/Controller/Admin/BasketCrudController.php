@@ -15,6 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 
 /**
  * @Security("is_granted('ROLE_SUPER_ADMIN')")
@@ -31,6 +32,13 @@ class BasketCrudController extends AbstractCrudController
         $queryBuilder = parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
         $queryBuilder->andWhere('entity.state = 0');
         return $queryBuilder;
+    }
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud->setFormOptions(
+            ['validation_groups' => ['Default', 'creation']], ['validation_groups' => ['Default', 'creation']]
+        );
     }
 
     public function configureFields(string $pageName): iterable

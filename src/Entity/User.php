@@ -34,13 +34,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    
+    #[Assert\NotBlank(message: 'Veuillez renseigner un mot de passe.')]
+    #[Assert\Length(
+        min: 6,
+        max: 100,
+        minMessage: 'Le mot de passe doit contenir au moins 6 caractères.',
+        maxMessage: 'Le mot de passe ne peut pas contenir plus de 100 caractères.'
+    )]
     private ?string $password = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank(message: 'Veuillez renseigner un nom.')]
+    #[Assert\Length(
+        min: 2,
+        max: 100,
+        minMessage: 'Le nom doit contenir au moins 2 caractères.',
+        maxMessage: 'Le nom ne peut pas contenir plus de 100 caractères.'
+    )]
     private ?string $lastName = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank(message: 'Veuillez renseigner un prénom.')]
+    #[Assert\Length(
+        min: 2,
+        max: 100,
+        minMessage: 'Le prénom doit contenir au moins 2 caractères.',
+        maxMessage: 'Le prénom ne peut pas contenir plus de 100 caractères.'
+    )]
     private ?string $firstName = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Basket::class, orphanRemoval: true)]

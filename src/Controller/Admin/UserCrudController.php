@@ -24,32 +24,12 @@ class UserCrudController extends AbstractCrudController
         return User::class;
     }
 
-    // public function configureFilters(Filters $filters): Filters
-    // {
-    //     return $filters 
-    //         -> add('createdAt', ChoiceFilter::class, [
-    //         'label' => 'Inscrit aujourd\'hui',
-    //         'field_options' => [
-    //             'choices' => [
-    //                 'Oui' => true,
-    //                 'Non' => false,
-    //             ],
-    //         ],
-    //         'apply_filter' => function (QueryBuilder $queryBuilder, $filterData, $filterForm) {
-    //             if ($filterData['value'] === true) {
-    //                 $queryBuilder
-    //                     ->andWhere('entity.createdAt >= :today')
-    //                     ->setParameter('today', new \DateTime('today'))
-    //                 ;
-    //             } elseif ($filterData['value'] === false) {
-    //                 $queryBuilder
-    //                     ->andWhere('entity.createdAt < :today')
-    //                     ->setParameter('today', new \DateTime('today'))
-    //                 ;
-    //             }
-    //         },
-    //     ]);
-    // }
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud->setFormOptions(
+            ['validation_groups' => ['Default', 'creation']], ['validation_groups' => ['Default', 'creation']]
+        );
+    }
 
     public function configureFilters(Filters $filters): Filters
     {

@@ -7,8 +7,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use App\Entity\Basket;
 use App\Entity\ContentBasket;
+
+
+/**
+ * @Security("is_granted('ROLE_USER')")
+*/
 
 class BasketController extends AbstractController
 {

@@ -10,7 +10,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Basket;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
+/**
+ * @Security("is_granted('ROLE_USER')")
+*/
 class UserController extends AbstractController
 {
     #[Route('/user', name: 'app_user')]
@@ -50,10 +54,17 @@ class UserController extends AbstractController
     public function basket(Basket $basket = null, EntityManagerInterface $em): Response
     {
         if ($basket == null) {
+            $this->addFlash('danger', 'Panier introuvable');
+            return $this->redirectToRoute('app_user');
+        }
+
+        if ($basket->getUser() != $this->getUser()) {
+            $this->addFlash('danger', 'Impossible de consulter ce panier');
             return $this->redirectToRoute('app_user');
         }
 
         if($basket->isState() == false){
+            $this->addFlash('danger', 'Impossible de consulter ce panier');
             return $this->redirectToRoute('app_user');
         }
 
